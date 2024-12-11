@@ -1,17 +1,33 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <img v-bind:src="img" :width="size" alt="">
+    <h1>name : {{ getFullname() }}</h1>
+    <p>address : <span v-html="address"></span></p>
+    <ul>
+      <li v-for="(item, index) in hobby" :key="index">{{ item }}</li>
+    </ul>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+  data() {
+    return {
+      firstname: "Bank",
+      lastname: "Mergency",
+      address: "<strong>Donmuang</strong>",
+      img: "https://science.nasa.gov/wp-content/uploads/2023/05/sun-cartoon-crop.png?w=4096&format=png&crop=1",
+      size: 200,
+      hobby: ["play a game", "travel", "sleep"]
+    };
+  },
+  methods: {
+    getFullname() {
+      return `${this.firstname} ${this.lastname}`;
+    }
   }
-}
+};
 </script>
 
 <style>
