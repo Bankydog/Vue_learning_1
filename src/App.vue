@@ -5,10 +5,15 @@
       Enter nickname :
       <input type="text" v-model="nickname" @keyup.enter="displayNickname" />
     </p>
-    <h1>name : {{ getFullname() }}</h1>
+    <h1>name : {{ getFullname }}</h1>
     <p>nickname : {{ nicknameDisplayed }}</p>
     <p>age : {{ age }}</p>
     <p>address : <span v-html="address"></span></p>
+    <p>salary : {{ salary }} Bath</p>
+    <button @click="addSalary(5000)">up salary</button>
+    <button @click="dropSalary(5000)">drop salary</button>
+    <p>profit/year : {{ getProfit }} Bath</p>
+    <p>Job position : {{ getDepartment }}</p>
     <ul>
       <li v-for="(item, index) in hobby" :key="index">{{ item }}</li>
     </ul>
@@ -17,10 +22,12 @@
       <li v-for="(item, key) in general" :key="key">{{ key }}: {{ item }}</li>
     </ul>
     <button @click="showData">Click for details</button>
-    <button @click="increment(10)">ADD</button>
-    <button @click="decrement(5)">DROP</button>
+    <button @click="increment(10)">ADD AGE</button>
+    <button @click="decrement(5)">DROP AGE</button>
 
-    <button @click="toggleVisible()">{{ isVisible ? "hide" : "more" }} detail</button>
+    <button @click="toggleVisible()">
+      {{ isVisible ? "hide" : "more" }} detail
+    </button>
     <article v-show="isVisible">
       <form @submit.prevent="submitForm">
         <label>Enter your favorite</label>
@@ -58,14 +65,12 @@ export default {
       general: { gender: "male", weight: 75, height: 180 },
       collection: [],
       isVisible: false,
+      salary: 50000,
     };
   },
   methods: {
-    getFullname() {
-      return `${this.firstname} ${this.lastname}`;
-    },
     showData() {
-      alert(this.getFullname());
+      alert(this.getFullname);
     },
     increment(value) {
       this.age += value;
@@ -81,8 +86,33 @@ export default {
       this.nicknameDisplayed = this.nickname;
       this.nickname = "";
     },
-    toggleVisible(){
-this.isVisible = !this.isVisible
+    toggleVisible() {
+      this.isVisible = !this.isVisible;
+    },
+    addSalary(value) {
+      this.salary += value;
+    },
+    dropSalary(value) {
+      this.salary = Math.max(0, this.salary - value);
+    },
+  },
+  computed: {
+    getFullname() {
+      return `${this.firstname} ${this.lastname}`;
+    },
+    getProfit() {
+      return this.salary * 12;
+    },
+    getDepartment() {
+      return this.salary >= 35000 ? "project manager" : "gege programmer";
+    },
+  },
+  watch: {
+    salary(value) {
+      if (value > 70000) {
+        alert("salary is not over 50,000");
+        this.salary = 20000;
+      }
     },
   },
 };
