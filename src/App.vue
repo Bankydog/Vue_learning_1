@@ -1,7 +1,10 @@
 <template>
   <div>
-    <img :src="img" :width="size" alt="">
-    <p>Enter nickname : <input type="text" v-model="nickname" @keyup.enter="displayNickname"></p>
+    <img :src="img" :width="size" alt="" />
+    <p>
+      Enter nickname :
+      <input type="text" v-model="nickname" @keyup.enter="displayNickname" />
+    </p>
     <h1>name : {{ getFullname() }}</h1>
     <p>nickname : {{ nicknameDisplayed }}</p>
     <p>age : {{ age }}</p>
@@ -11,39 +14,41 @@
     </ul>
     <p>Information</p>
     <ul>
-      <li v-for="([key, value], idx) in Object.entries(general)" :key="idx">
-        {{ key }}: {{ value }}
-      </li>
+      <li v-for="(item, key) in general" :key="key">{{ key }}: {{ item }}</li>
     </ul>
     <button @click="showData">Click for details</button>
     <button @click="increment(10)">ADD</button>
     <button @click="decrement(5)">DROP</button>
-    <form @submit.prevent="submitForm">
-      <label>Enter your favorite</label>
-      <input type="text" v-model="favorite" placeholder="Your favorite...">
-      <button type="submit">ENTER</button>
-    </form>
-    <p>favorite: {{ favorite }}</p>
-    <div v-if="collection.length != 0">
-      <p> my collection</p>
-      <ul>
-        <p>My collection</p>
-        <li v-for="(item, index) in collection" :key="index">{{ item }}</li>
-      </ul>
-    </div>
-    <p v-else>No collection</p>
+
+    <button @click="toggleVisible()">{{ isVisible ? "hide" : "more" }} detail</button>
+    <article v-show="isVisible">
+      <form @submit.prevent="submitForm">
+        <label>Enter your favorite</label>
+        <input type="text" v-model="favorite" placeholder="Your favorite..." />
+        <button type="submit">ENTER</button>
+      </form>
+      <p>favorite: {{ favorite }}</p>
+      <div v-if="collection.length != 0">
+        <p>my collection</p>
+        <ul>
+          <p>My collection</p>
+          <li v-for="(item, index) in collection" :key="index">{{ item }}</li>
+        </ul>
+      </div>
+      <p v-else>No collection</p>
+    </article>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'App',
+  name: "App",
   data() {
     return {
       firstname: "Bank",
       lastname: "Mergency",
       nickname: "",
-      nicknameDisplayed: "",  // จะใช้แสดงชื่อเล่นที่กด Enter
+      nicknameDisplayed: "",
       favorite: "",
       age: 30,
       address: "<strong>Donmuang</strong>",
@@ -51,7 +56,8 @@ export default {
       size: 200,
       hobby: ["play a game", "travel", "sleep"],
       general: { gender: "male", weight: 75, height: 180 },
-      collection:[],
+      collection: [],
+      isVisible: false,
     };
   },
   methods: {
@@ -72,10 +78,13 @@ export default {
       alert("Save Complete");
     },
     displayNickname() {
-      this.nicknameDisplayed = this.nickname;  // ตั้งค่าชื่อเล่นให้แสดงหลังจากกด Enter
-      this.nickname = "";  // ลบข้อความใน input หลังจากกด Enter
-    }
-  }
+      this.nicknameDisplayed = this.nickname;
+      this.nickname = "";
+    },
+    toggleVisible(){
+this.isVisible = !this.isVisible
+    },
+  },
 };
 </script>
 
